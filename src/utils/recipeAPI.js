@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { APP_ID, APP_KEY } from './auth';
+import { NB_SHOW_RESULTS } from './constantes';
 
 const BASE_URL = 'https://api.edamam.com/search';
 
@@ -14,5 +15,5 @@ export const getRecipeById = uri => {
 export const searchRecipesByQuery = (query, firstResult = 0) =>
   axios.get(
     `${BASE_URL}?q=${query}&app_id=${APP_ID}&app_key=${APP_KEY}&from=${firstResult}&to=${firstResult +
-      10}`
+      NB_SHOW_RESULTS}`
   );

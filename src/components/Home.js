@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { getRecipeById } from '../utils/RecipeAPI';
+import { getRecipeById } from '../utils/recipeAPI';
 
-const recipesURI = [
-  'http://www.edamam.com/ontologies/edamam.owl#recipe_3dc6d568c66a38e2f86d24a055c6de6d',
-  'http://www.edamam.com/ontologies/edamam.owl#recipe_040cafa8ae03aea132da9c8b8e419772',
-];
+import { RECIPES_HOME_URI } from '../utils/constantes';
 
 export default class Home extends Component {
   state = {
@@ -13,11 +10,11 @@ export default class Home extends Component {
   };
 
   componentDidMount() {
-    this.putRecipesInStates();
+    this.loadRecipes();
   }
 
-  async putRecipesInStates() {
-    const recipesMapped = recipesURI.map(uri => {
+  async loadRecipes() {
+    const recipesMapped = RECIPES_HOME_URI.map(uri => {
       return this.getRecipes(uri);
     });
     const recipes = await Promise.all(recipesMapped);
@@ -32,7 +29,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const recipes = this.state.recipes.map(({ label, image, uri }) => {
+    const recipesList = this.state.recipes.map(({ label, image, uri }) => {
       const recipeId = uri.replace(
         'http://www.edamam.com/ontologies/edamam.owl#recipe_',
         ''
@@ -46,6 +43,6 @@ export default class Home extends Component {
         </div>
       );
     });
-    return <div>{recipes}</div>;
+    return <div>{recipesList}</div>;
   }
 }

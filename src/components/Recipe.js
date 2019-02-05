@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { getRecipeById } from '../utils/RecipeAPI';
+import { getRecipeById } from '../utils/recipeAPI';
 
 export default class Recipe extends Component {
   state = {

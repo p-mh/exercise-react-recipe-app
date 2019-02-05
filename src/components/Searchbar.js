@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { searchRecipesByQuery } from '../utils/RecipeAPI';
+import { searchRecipesByQuery } from '../utils/recipeAPI';
+
+import { RESET_SEARCH_STATE, NB_SHOW_RESULTS } from '../utils/constantes';
 
 const incrementFirstResult = (prevState, prevProps) => ({
-  firstResult: prevState.firstResult + 10,
+  firstResult: prevState.firstResult + NB_SHOW_RESULTS,
 });
-
-const RESET_STATE = {
-  inputValue: '',
-  results: [],
-  firstResult: 0,
-  isLoading: false,
-};
 
 export default class Searchbar extends Component {
   constructor(props) {
     super(props);
-    this.state = RESET_STATE;
+    this.state = RESET_SEARCH_STATE;
     this.elementFocus = null;
   }
   componentDidMount() {
@@ -47,8 +42,8 @@ export default class Searchbar extends Component {
     );
   }
 
-  resetDatas = () => {
-    this.setState(RESET_STATE);
+  resetState = () => {
+    this.setState(RESET_SEARCH_STATE);
   };
 
   render() {
@@ -59,7 +54,7 @@ export default class Searchbar extends Component {
       );
       return (
         <p key={recipeId}>
-          <Link to={`/recipe/${recipeId}`} onClick={this.resetDatas}>
+          <Link to={`/recipe/${recipeId}`} onClick={this.resetState}>
             {label}
           </Link>
         </p>
