@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { searchRecipesByQuery } from '../utils/recipeAPI';
 
-import { RESET_SEARCH_STATE, NB_SHOW_RESULTS } from '../utils/constantes';
+import { RESET_SEARCH_STATE } from '../utils/constantes';
 
-const incrementFirstResult = (prevState, prevProps) => ({
-  firstResult: prevState.firstResult + NB_SHOW_RESULTS,
-});
+import { incrementFirstResult } from '../utils/stateManagement';
 
 export default class Searchbar extends Component {
   constructor(props) {
