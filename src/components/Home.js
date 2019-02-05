@@ -4,6 +4,13 @@ import { getRecipeById } from '../utils/recipeAPI';
 
 import { RECIPES_HOME_URI } from '../utils/constantes';
 
+import {
+  RecipesList,
+  Recipe,
+  RecipeImg,
+  TitleRecipe,
+} from './homeStyledComponent';
+
 export default class Home extends Component {
   state = {
     recipes: [],
@@ -35,14 +42,16 @@ export default class Home extends Component {
         ''
       );
       return (
-        <div key={recipeId}>
-          <h2>
-            <Link to={`/recipe/${recipeId}`}>{label}</Link>
-          </h2>
-          <img src={image} alt={label} />
-        </div>
+        <Recipe key={recipeId}>
+          <Link to={`/recipe/${recipeId}`}>
+            <RecipeImg src={image} alt={label} />
+            <TitleRecipe>
+              <h2>{label}</h2>
+            </TitleRecipe>
+          </Link>
+        </Recipe>
       );
     });
-    return <div>{recipesList}</div>;
+    return <RecipesList>{recipesList}</RecipesList>;
   }
 }

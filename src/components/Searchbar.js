@@ -6,6 +6,16 @@ import { RESET_SEARCH_STATE } from '../utils/constantes';
 
 import { incrementFirstResult } from '../utils/stateManagement';
 
+import {
+  SearchOut,
+  Search,
+  SearchInput,
+  SearchButton,
+  Results,
+  ResultElmt,
+  NextBtn,
+} from './searchBarStyledComponent';
+
 export default class Searchbar extends Component {
   constructor(props) {
     super(props);
@@ -19,6 +29,16 @@ export default class Searchbar extends Component {
     this.setState({
       inputValue,
     });
+  };
+  onKeyDown = e => {
+    if (e.key === 'Enter') {
+      this.getRecipes(this.state.inputValue, this.state.firstResult);
+    }
+    if (e.key === 'Escape') {
+      this.setState({
+        results: [],
+      });
+    }
   };
 
   getRecipes(query, firstResult = 0) {
@@ -51,20 +71,22 @@ export default class Searchbar extends Component {
         ''
       );
       return (
-        <p key={recipeId}>
+        <ResultElmt key={recipeId}>
           <Link to={`/recipe/${recipeId}`} onClick={this.resetState}>
             {label}
           </Link>
-        </p>
+        </ResultElmt>
       );
     });
 
     const searchResults = this.state.isLoading ? (
-      <div>Loading</div>
+      <Results isLoading>
+        <i className="fas fa-spinner fa-spin" />
+      </Results>
     ) : (
-      <div>
+      <Results>
         {resultsList}
-        <button
+        <NextBtn
           onClick={this.getRecipes.bind(
             this,
             this.state.inputValue,
@@ -72,29 +94,32 @@ export default class Searchbar extends Component {
           )}
         >
           Next results
-        </button>
-      </div>
+        </NextBtn>
+      </Results>
     );
 
     return (
-      <div>
-        <input
-          type="text"
-          onChange={this.onChange}
-          value={this.state.inputValue}
-          ref={el => (this.elementFocus = el)}
-        />
-        <button
-          onClick={this.getRecipes.bind(
-            this,
-            this.state.inputValue,
-            this.state.firstResult
-          )}
-        >
-          Search
-        </button>
+      <SearchOut>
+        <Search isResults={this.state.results.length ? true : false}>
+          <SearchInput
+            type="text"
+            onChange={this.onChange}
+            value={this.state.inputValue}
+            onKeyDown={this.onKeyDown}
+            ref={el => (this.elementFocus = el)}
+          />
+          <SearchButton
+            onClick={this.getRecipes.bind(
+              this,
+              this.state.inputValue,
+              this.state.firstResult
+            )}
+          >
+            <i className="fas fa-search" />
+          </SearchButton>
+        </Search>
         {this.state.results.length ? searchResults : null}
-      </div>
+      </SearchOut>
     );
   }
 }

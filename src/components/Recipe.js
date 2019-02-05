@@ -1,6 +1,16 @@
 import React, { Component } from 'react';
 import { getRecipeById } from '../utils/recipeAPI';
 
+import PropTypes from 'prop-types';
+
+import {
+  RecipeContent,
+  Title,
+  ImgRecipe,
+  Image,
+  TextRecipe,
+} from './RecipeStyledComponent';
+
 export default class Recipe extends Component {
   state = {
     recipe: {},
@@ -37,13 +47,27 @@ export default class Recipe extends Component {
       : null;
 
     return this.state.isLoading ? (
-      <div>Loading</div>
-    ) : (
       <div>
-        <h2>{label}</h2>
-        <img src={image} alt={label} />
-        <ul>{ingredients}</ul>
+        <i className="fas fa-spinner fa-spin" />
       </div>
+    ) : (
+      <RecipeContent>
+        <ImgRecipe>
+          <Image src={image} alt={label} />
+        </ImgRecipe>
+        <TextRecipe>
+          <Title>{label}</Title>
+          <ul>{ingredients}</ul>
+        </TextRecipe>
+      </RecipeContent>
     );
   }
 }
+
+Recipe.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      recipeId: PropTypes.string.isRequired,
+    }),
+  }),
+};
